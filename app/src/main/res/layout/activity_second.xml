@@ -9,6 +9,26 @@
     android:backgroundTintMode="src_over">
 
     <Button
+        android:id="@+id/bt_identificar"
+        android:layout_width="182dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="216dp"
+        android:layout_marginEnd="50dp"
+        android:backgroundTint="#25AA32"
+        android:backgroundTintMode="add"
+        android:fontFamily="@font/nunito_semibold"
+        android:shadowColor="#000000"
+        android:shadowRadius="3"
+        android:text="Identificar Adulteração"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/carregarImageView"
+        tools:ignore="HardcodedText" />
+
+    <Button
         android:id="@+id/btCarregar"
         android:layout_width="182dp"
         android:layout_height="wrap_content"
