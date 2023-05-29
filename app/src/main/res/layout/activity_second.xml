@@ -9,11 +9,11 @@
     android:backgroundTintMode="src_over">
 
     <Button
-        android:id="@+id/bt_identificar"
+        android:id="@+id/btIdentificar"
         android:layout_width="182dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="216dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="50dp"
         android:backgroundTint="#25AA32"
         android:backgroundTintMode="add"
@@ -25,7 +25,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/carregarImageView"
+        app:layout_constraintTop_toBottomOf="@+id/btCarregar"
         tools:ignore="HardcodedText" />
 
     <Button
@@ -35,7 +35,7 @@
         android:layout_marginStart="50dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="50dp"
-        android:backgroundTint="#25AA32"
+        android:backgroundTint="#03A9F4"
         android:backgroundTintMode="add"
         android:fontFamily="@font/nunito_semibold"
         android:shadowColor="#000000"

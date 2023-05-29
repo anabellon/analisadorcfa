@@ -1,6 +1,7 @@
 package com.example.analisadorcfa;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.File;
@@ -22,10 +24,8 @@ import java.io.IOException;
 public class SecondActivity extends AppCompatActivity {
 
     private ImageView carregarImageView;
-    private Button btCarregar, bt_identificar;
-    private String caminho;
-
-    private static final int PICK_IMAGE_REQUEST = 1;
+    private Button btCarregar, btIdentificar;
+    private String caminhoImagem;
 
     private ActivityResultLauncher<String> imagePickerLauncher;
 
@@ -37,32 +37,54 @@ public class SecondActivity extends AppCompatActivity {
 
         carregarImageView = findViewById(R.id.carregarImageView);
         btCarregar = findViewById(R.id.btCarregar);
-        bt_identificar = findViewById(R.id.bt_identificar);
+        btIdentificar = findViewById(R.id.btIdentificar);
 
-        imagePickerLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), this::onImagePickerResult);
+        imagePickerLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), this::tratarResultadoSelecaoImagem);
 
         btCarregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                abrirSelecionadorDeImagem();
+                abrirSeletorDeImagem();
             }
         });
 
-        bt_identificar.setOnClickListener(new View.OnClickListener() {
+        btIdentificar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(SecondActivity.this,ThirdActivity.class);
-                intent.putExtra("caminho_imagem", caminho);
-                startActivity(intent);
+                if (caminhoImagem == null) {
+                    exibirAlertDialog();
+                } else {
+                    iniciarTerceiraActivity();
+                }
             }
         });
     }
 
-    private void abrirSelecionadorDeImagem() {
+    private void exibirAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(SecondActivity.this);
+        builder.setTitle("Alerta");
+        builder.setMessage("Nenhuma imagem carregada. Por favor, carregue uma imagem antes de prosseguir.");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    private void abrirSeletorDeImagem() {
         imagePickerLauncher.launch("image/*");
     }
 
-    private void onImagePickerResult(Uri uriImagem) {
+    private void iniciarTerceiraActivity() {
+        Intent intent = new Intent(SecondActivity.this, ThirdActivity.class);
+        intent.putExtra("caminho_imagem", caminhoImagem);
+        startActivity(intent);
+    }
+
+    private void tratarResultadoSelecaoImagem(Uri uriImagem) {
         try {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inScaled = false;
@@ -81,6 +103,7 @@ public class SecondActivity extends AppCompatActivity {
                 Toast.makeText(this, "A imagem não deve estar comprimida", Toast.LENGTH_SHORT).show();
                 return;
             }
+
             // Salvar o Bitmap em um arquivo temporário
             File arquivo = new File(getCacheDir(), "imagem.png");
             try {
@@ -92,7 +115,7 @@ public class SecondActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            caminho=arquivo.getAbsolutePath();
+            caminhoImagem = arquivo.getAbsolutePath();
             carregarImageView.setImageBitmap(bitmap);
         } catch (IOException e) {
             e.printStackTrace();
